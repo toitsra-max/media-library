@@ -200,6 +200,7 @@ const S = {
   route: { name: 'home', params: {} },
   homePeriod: { year: '', term: '' },
   period: null,
+  minePeriod: { year: '', term: '' },
   lib: { q: '', type: '', dept: '', grade: '', year: '' },
   tq: '', tdept: '', mq: '', uq: '',
   sort: { key: 'name', dir: 1 },
@@ -300,7 +301,7 @@ function fmtDate(iso) {
 
 /* ------------------------------------------------------------ data lookups */
 const D = () => S.data;
-const role = () => (D().me && !D().me.mustChange ? D().me.role : 'guest');
+const role = () => (D().me ? D().me.role : 'guest');
 const isExec = () => role() === 'executive' || role() === 'admin';
 const canAuthor = () => role() === 'teacher' || role() === 'admin';
 const canEdit = m => role() === 'admin' || (role() === 'teacher' && m.ownerId === D().me.id);
@@ -352,8 +353,6 @@ function go(name, params) {
 }
 
 function render() {
-  // ผู้ใช้ที่ยังใช้รหัสผ่านเริ่มต้น ต้องตั้งรหัสใหม่ก่อนทำอย่างอื่น
-  if (D().me && D().me.mustChange && S.route.name !== 'password') S.route = { name: 'password', params: {} };
   renderTopbar();
   const r = ROUTES[S.route.name] || ROUTES.home;
   const app = $('#app');
@@ -590,16 +589,40 @@ function mediaTable(list, opts) {
 }
 
 function viewMine() {
-  const me = D().me;
-  const mine = D().media.filter(m => m.ownerId === me.id).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  const me = D().me, s = D().settings;
+  const all = D().media.filter(m => m.ownerId === me.id).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  const mine = all.filter(m => inPeriod(m, S.minePeriod));
   const c = countBy(mine, 'typeId');
+  const thisTerm = all.filter(m => m.year === s.currentYear && m.term === s.currentTerm).length;
+  const pub = mine.filter(m => m.visibility === 'public').length;
   const addBtn = `<button class="btn primary" onclick="go('form')"><i class="ti ti-plus"></i> เพิ่มสื่อ</button>`;
-  return `
+  const pwNotice = me.mustChange
+    ? `<div class="notice">คุณยังใช้รหัสผ่านเริ่มต้นอยู่ แนะนำให้ <a href="#" onclick="go('password');return false">เปลี่ยนรหัสผ่าน</a> เพื่อไม่ให้คนอื่นเข้ามาแก้ไขสื่อของคุณได้</div>` : '';
+  return `${pwNotice}
   <div class="page-head"><div><h1>สื่อของฉัน</h1><div class="muted">${esc(me.name)} · ${esc(me.department || 'ไม่สังกัดกลุ่มสาระ')}</div></div>${addBtn}</div>
-  <div class="stats">${stat('สื่อทั้งหมด', mine.length)}${stat('ประเภทที่ใช้', `${Object.keys(c).length}<span class="small muted"> / ${D().types.length}</span>`)}</div>
-  <div class="card section"><div class="filters">${D().types.map(t =>
-    `<span class="chip ${c[t.id] ? '' : 'off'}"><i class="ti ti-${esc(t.icon)}"></i>${esc(t.name)} ${c[t.id] || 0}</span>`).join('')}</div></div>
-  <div class="section">${mediaTable(mine, { emptyExtra: addBtn })}</div>`;
+  <div class="page-head"><h2>สรุปการส่งสื่อของฉัน</h2>${periodBar('minePeriod')}</div>
+  <div class="stats">
+    ${stat('สื่อทั้งหมด', mine.length, periodLabel(S.minePeriod))}
+    ${stat('ส่งในภาคเรียนนี้', '+' + thisTerm, `ภาคเรียนที่ ${esc(s.currentTerm)}/${esc(s.currentYear)}`, true)}
+    ${stat('ประเภทที่ใช้', `${Object.keys(c).length}<span class="small muted"> / ${D().types.length}</span>`)}
+    ${stat('เผยแพร่สาธารณะ', `${pub}<span class="small muted"> / ${mine.length}</span>`, mine.length - pub ? `ภายในโรงเรียน ${mine.length - pub} ชิ้น` : '')}
+  </div>
+  <div class="grid2 section">
+    <div class="card"><h3>สื่อแยกตามประเภท</h3>${typeBars(mine)}</div>
+    <div class="card"><h3>จำนวนสื่อแต่ละภาคเรียน</h3>${termBars(all)}</div>
+  </div>
+  <div class="section"><h2>รายการสื่อ</h2>${mediaTable(mine, { emptyExtra: addBtn })}</div>`;
+}
+
+/** แท่งจำนวนสื่อของแต่ละภาคเรียน เรียงจากล่าสุด */
+function termBars(list) {
+  const c = {};
+  list.forEach(m => { const k = m.year + '/' + m.term; c[k] = (c[k] || 0) + 1; });
+  const keys = Object.keys(c).sort().reverse();
+  if (!keys.length) return '<p class="muted">ยังไม่มีสื่อ</p>';
+  const max = Math.max(...Object.values(c));
+  return keys.map(k => `<div class="bar-row"><span class="bar-label">ภาคเรียนที่ ${esc(k.split('/')[1])}/${esc(k.split('/')[0])}</span>
+    <div class="bar-track"><div class="bar" style="width:${(c[k] / max) * 100}%;background:var(--p700)"></div></div><span class="bar-val">${c[k]}</span></div>`).join('');
 }
 
 /* ------------------------------------------------------------ view: media form */
@@ -909,7 +932,7 @@ function viewSettings() {
       <textarea id="import-text" placeholder="thai01&#9;นางสาวสมศรี ใจดี&#9;ภาษาไทย&#9;teacher"></textarea>
       <div class="field" style="margin-top:8px"><label class="lbl">รหัสผ่านเริ่มต้นสำหรับผู้ใช้ใหม่</label>
         <input type="text" id="import-password" autocomplete="off" style="max-width:260px">
-        <div class="hint">ทุกคนต้องตั้งรหัสผ่านใหม่ (อย่างน้อย ${d.minPassword} ตัวอักษร) ตอนเข้าใช้ครั้งแรก</div></div>
+        <div class="hint">ผู้ใช้เปลี่ยนรหัสผ่านเองได้ภายหลังที่ปุ่มกุญแจมุมขวาบน</div></div>
       <button class="btn purple" onclick="submitImport()" style="margin-top:8px"><i class="ti ti-upload"></i> นำเข้า</button>
       <div id="import-result"></div>
     </details>
@@ -941,7 +964,7 @@ function renderUserRows() {
 
 async function resetUserPassword(id) {
   const u = D().users.find(x => x.id === id);
-  const ok = await confirmBox(`ตั้งรหัสผ่านชั่วคราวใหม่ให้ <b>${esc(u.name)}</b> (${esc(u.username)}) ใช่ไหม<div class="hint">รหัสเดิมจะใช้ไม่ได้ทันที และผู้ใช้ต้องตั้งรหัสใหม่ตอนเข้าสู่ระบบ</div>`, 'รีเซ็ตรหัสผ่าน');
+  const ok = await confirmBox(`ตั้งรหัสผ่านชั่วคราวใหม่ให้ <b>${esc(u.name)}</b> (${esc(u.username)}) ใช่ไหม<div class="hint">รหัสเดิมจะใช้ไม่ได้ทันที แจ้งรหัสใหม่ให้ผู้ใช้ แล้วผู้ใช้เปลี่ยนเองได้ภายหลัง</div>`, 'รีเซ็ตรหัสผ่าน');
   if (!ok) return;
   busy(true, 'กำลังรีเซ็ต…');
   try {
@@ -968,7 +991,7 @@ function editUser(id) {
     <div class="row2"><div class="field"><label class="lbl">ชื่อผู้ใช้</label><input type="text" name="username" value="${esc(u.username)}" ${id ? 'readonly' : ''} placeholder="thai01" autocomplete="off"></div>
       <div class="field"><label class="lbl">ชื่อ-สกุล</label><input type="text" name="name" value="${esc(u.name)}"></div></div>
     ${id ? '' : `<div class="field"><label class="lbl">รหัสผ่านเริ่มต้น</label><input type="text" name="password" autocomplete="off" style="max-width:260px">
-      <div class="hint">ผู้ใช้ต้องตั้งรหัสใหม่ตอนเข้าใช้ครั้งแรก</div></div>`}
+      <div class="hint">ผู้ใช้เปลี่ยนรหัสผ่านเองได้ภายหลัง</div></div>`}
     <div class="row2"><div class="field"><label class="lbl">กลุ่มสาระ</label><select name="department">${opt('', u.department, '— ไม่สังกัด (เช่น ผู้บริหาร) —')}${D().departments.map(x => opt(x, u.department)).join('')}</select></div>
       <div class="field"><label class="lbl">บทบาท</label><select name="role">${Object.keys(ROLE_LABEL).map(r => opt(r, u.role, ROLE_LABEL[r])).join('')}</select></div></div>
     <label><input type="checkbox" name="active" ${u.active ? 'checked' : ''}> เปิดใช้งาน</label>
@@ -1056,7 +1079,7 @@ async function doLogin(ev) {
     const r = await callServer('login', f.username.value.trim(), f.password.value);
     setToken(r.token);
     await reload();
-    go(r.mustChange ? 'password' : (isExec() ? 'depts' : canAuthor() ? 'mine' : 'home'));
+    go(isExec() ? 'depts' : canAuthor() ? 'mine' : 'home');
     toast(`ยินดีต้อนรับ ${esc(D().me.name)}`);
   } catch (e) {
     err.textContent = (e && e.message) || String(e);
@@ -1073,18 +1096,17 @@ async function doLogout() {
 }
 
 function viewPassword() {
-  const forced = D().me.mustChange;
   return `
   <form class="card form" style="max-width:460px;margin:24px auto" onsubmit="submitPassword(event)">
-    <h1>${forced ? 'ตั้งรหัสผ่านใหม่' : 'เปลี่ยนรหัสผ่าน'}</h1>
-    ${forced ? `<div class="notice" style="margin:0">คุณกำลังใช้รหัสผ่านเริ่มต้น กรุณาตั้งรหัสผ่านของตัวเองก่อนใช้งาน</div>` : ''}
+    <h1>เปลี่ยนรหัสผ่าน</h1>
+    ${D().me.mustChange ? `<div class="notice" style="margin:0">คุณยังใช้รหัสผ่านเริ่มต้นอยู่ แนะนำให้เปลี่ยนเป็นรหัสของตัวเอง เพื่อไม่ให้คนอื่นเข้ามาแก้ไขสื่อของคุณได้</div>` : ''}
     <div class="field"><label class="lbl">รหัสผ่านปัจจุบัน</label><input type="password" name="old" autocomplete="current-password" style="width:100%"></div>
     <div class="field"><label class="lbl">รหัสผ่านใหม่</label><input type="password" name="new1" autocomplete="new-password" style="width:100%">
       <div class="hint">อย่างน้อย ${D().minPassword} ตัวอักษร</div></div>
     <div class="field"><label class="lbl">ยืนยันรหัสผ่านใหม่</label><input type="password" name="new2" autocomplete="new-password" style="width:100%"></div>
     <div class="err" id="pw-err"></div>
     <div class="filters"><button class="btn primary"><i class="ti ti-device-floppy"></i> บันทึกรหัสผ่าน</button>
-      ${forced ? `<button type="button" class="btn" onclick="doLogout()">ออกจากระบบ</button>` : `<button type="button" class="btn" onclick="go('home')">ยกเลิก</button>`}</div>
+      <button type="button" class="btn" onclick="history.back()">ยกเลิก</button></div>
   </form>`;
 }
 
