@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>คลังสื่อการเรียนรู้</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+:root {
+  --p900: #3B1E6E; --p700: #5B2E9E; --p500: #7A4FC0; --p300: #9B7BD4; --p100: #E6DCF7; --p50: #F3EEFC;
+  --y500: #F5C518; --y700: #8A6A00; --y50: #FFF8D6;
+  --text: #2A1F3D; --muted: #6B5D85; --border: #E3DAF3; --white: #fff; --danger: #B3261E;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Sarabun', sans-serif; font-size: 16px; color: var(--text); background: var(--p50); line-height: 1.6; }
+h1, h2, h3, h4 { color: var(--p900); margin: 0 0 .5rem; font-weight: 600; line-height: 1.3; }
+h1 { font-size: 1.6rem; } h2 { font-size: 1.3rem; } h3 { font-size: 1.1rem; }
+a { color: var(--p700); }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+.hidden { display: none !important; }
+
+.topbar { background: var(--p900); color: #fff; }
+.topbar-inner { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; cursor: pointer; }
+.brand img { height: 36px; width: 36px; object-fit: contain; border-radius: 6px; background: #fff; }
+.brand .logo-ph { height: 36px; width: 36px; border-radius: 6px; background: var(--p700); display: grid; place-items: center; font-size: 20px; }
+.nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+.nav button { background: none; border: 0; color: #E6DCF7; font: inherit; padding: 6px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.nav button:hover { background: var(--p700); color: #fff; }
+.nav button.active { background: var(--p700); color: #fff; font-weight: 500; }
+.userbox { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.userbox .role { background: var(--p700); padding: 2px 8px; border-radius: 99px; font-size: .78rem; }
+.userbox a.out { color: #E6DCF7; }
+
+main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 60px; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.crumb { font-size: .9rem; color: var(--muted); margin-bottom: 4px; }
+.crumb a { cursor: pointer; text-decoration: none; }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: .95rem; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--p300); background: #fff; color: var(--p700); cursor: pointer; text-decoration: none; white-space: nowrap; }
+.btn:hover { background: var(--p50); }
+.btn.primary { background: var(--y500); border-color: var(--y500); color: var(--p900); font-weight: 600; }
+.btn.primary:hover { background: #E8B800; }
+.btn.purple { background: var(--p700); border-color: var(--p700); color: #fff; }
+.btn.purple:hover { background: var(--p900); }
+.btn.danger { color: var(--danger); border-color: #E8B4B0; }
+.btn.sm { padding: 4px 10px; font-size: .85rem; }
+.btn.ghost { border-color: transparent; background: none; }
+
+.card { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); padding: 16px 20px; }
+.section { margin-top: 20px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stat { background: #fff; border-radius: var(--radius); padding: 14px 16px; border-top: 4px solid var(--p700); }
+.stat.accent { border-top-color: var(--y500); }
+.stat .label { font-size: .875rem; color: var(--muted); }
+.stat .value { font-size: 1.8rem; font-weight: 600; color: var(--p900); line-height: 1.2; }
+.stat.accent .value { color: var(--y700); }
+.stat .sub { font-size: .8rem; color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+
+.filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.filters label { font-size: .875rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+select, input[type=text], input[type=url], input[type=password], input[type=search], textarea {
+  font: inherit; font-size: .95rem; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff; color: var(--text); max-width: 100%;
+}
+select:focus, input:focus, textarea:focus { outline: 2px solid var(--p300); outline-offset: 0; border-color: var(--p300); }
+textarea { width: 100%; min-height: 90px; resize: vertical; }
+
+.bar-row { display: grid; grid-template-columns: minmax(110px, 200px) 1fr 44px; align-items: center; gap: 10px; margin: 7px 0; font-size: .9rem; }
+.bar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track { background: var(--p50); border-radius: 4px; height: 16px; overflow: hidden; }
+.bar { height: 100%; border-radius: 4px; }
+.stack { display: flex; height: 100%; border-radius: 4px; overflow: hidden; }
+.stack span { display: block; height: 100%; }
+.bar-val { text-align: right; font-weight: 500; color: var(--p900); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; color: var(--muted); margin-top: 10px; }
+.legend i.dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.mcard { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform .1s, border-color .1s; display: flex; flex-direction: column; }
+.mcard:hover { border-color: var(--p300); transform: translateY(-2px); }
+.cover { position: relative; aspect-ratio: 16/9; display: grid; place-items: center; color: rgba(255,255,255,.9); font-size: 42px; }
+.cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mcard .body { padding: 10px 12px 12px; }
+.mcard h4 { font-size: 1rem; margin: 6px 0 2px; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; padding: 2px 8px; border-radius: 99px; background: var(--p50); color: var(--p700); }
+.chip.internal { background: var(--y50); color: var(--y700); }
+.chip.off { background: #F1EFF4; color: #A9A1B6; }
+
+.table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+th { background: var(--p50); color: var(--p900); font-weight: 600; white-space: nowrap; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--p700); }
+td.num, th.num { text-align: right; }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: #FBF9FE; }
+tr.warn td { background: var(--y50); }
+tr.warn td:first-child { box-shadow: inset 4px 0 0 var(--y500); }
+.typeicons { display: flex; gap: 4px; flex-wrap: wrap; }
+.typeicons i { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 15px; }
+.actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+.form { display: grid; gap: 16px; max-width: 760px; }
+.field label.lbl { display: block; font-weight: 500; margin-bottom: 4px; color: var(--p900); }
+.field .req { color: var(--danger); }
+.field input[type=text], .field input[type=url], .field input[type=password], .field select { width: 100%; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px; }
+.checks label { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 99px; cursor: pointer; font-size: .9rem; background: #fff; }
+.checks label:has(input:checked) { background: var(--p700); color: #fff; border-color: var(--p700); }
+.checks input { display: none; }
+.radio-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.radio-cards label { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; cursor: pointer; background: #fff; }
+.radio-cards label:has(input:checked) { border-color: var(--p700); box-shadow: 0 0 0 1px var(--p700); background: #FBF9FE; }
+.radio-cards b { color: var(--p900); }
+.hint { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+.err { color: var(--danger); font-size: .9rem; }
+
+.notice { background: var(--y50); border: 1px solid #F2DE8C; color: #5C4700; border-radius: var(--radius); padding: 12px 16px; margin-bottom: 16px; }
+.empty { text-align: center; padding: 40px 16px; color: var(--muted); }
+.empty i { font-size: 40px; color: var(--p300); display: block; margin-bottom: 8px; }
+
+.hero { background: var(--p700); color: #fff; border-radius: var(--radius); padding: 24px; margin-bottom: 20px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.hero h1 { color: #fff; margin: 0; }
+.hero p { margin: 4px 0 0; color: var(--p100); }
+.hero form { display: flex; gap: 8px; flex: 1; max-width: 420px; min-width: 240px; }
+.hero input { flex: 1; border: 0; }
+
+.detail { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; }
+.detail .cover { border-radius: var(--radius); overflow: hidden; font-size: 72px; }
+.meta { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: .95rem; margin: 12px 0 16px; }
+.meta dt { color: var(--muted); }
+.meta dd { margin: 0; }
+
+#toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 50; width: min(560px, calc(100% - 32px)); }
+.toast { background: var(--p900); color: #fff; padding: 12px 16px; border-radius: 8px; box-shadow: 0 6px 20px rgba(59,30,110,.3); font-size: .95rem; }
+.toast.warn { background: var(--y50); color: #5C4700; border: 1px solid var(--y500); }
+.toast.error { background: var(--danger); }
+.toast a { color: var(--y500); }
+#busy { position: fixed; inset: 0; background: rgba(243,238,252,.7); display: grid; place-items: center; z-index: 40; }
+#busy .box { background: #fff; padding: 16px 24px; border-radius: 10px; border: 1px solid var(--border); color: var(--p900); display: flex; gap: 10px; align-items: center; }
+.spin { width: 18px; height: 18px; border: 3px solid var(--p100); border-top-color: var(--p700); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.modal-bg { position: fixed; inset: 0; background: rgba(42,31,61,.45); display: grid; place-items: center; z-index: 60; padding: 16px; }
+.modal { background: #fff; border-radius: 12px; padding: 20px; max-width: 420px; width: 100%; }
+.modal .actions { margin-top: 16px; }
+
+@media (max-width: 720px) {
+  .detail, .row2, .radio-cards { grid-template-columns: 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 100px 1fr 36px; }
+  .userbox .name { display: none; }
+  .brand { flex: 1; }
+  .nav { order: 3; flex-basis: 100%; }
+  h1 { font-size: 1.35rem; }
+}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner" id="topbar"></div></header>
+<main id="app"></main>
+<div id="toast"></div>
+<div id="busy" class="hidden"><div class="box"><div class="spin"></div><span id="busy-msg">กำลังโหลด…</span></div></div>
+
+<script>
+// แสดงข้อผิดพลาดของสคริปต์บนหน้าจอ เพื่อให้แจ้งแอดมินได้ (ทำงานแม้สคริปต์หลักจะโหลดไม่ขึ้น)
+window.addEventListener('error', function (e) {
+  var box = document.getElementById('app');
+  if (box) box.insertAdjacentHTML('afterbegin', '<div class="notice">เกิดข้อผิดพลาดในหน้าเว็บ: ' +
+    String(e.message).replace(/</g, '&lt;') + ' (บรรทัด ' + e.lineno + ')</div>');
+});
+</script>
+
+<script>
+const GRADES = ['ป.1', 'ป.2', 'ป.3', 'ป.4', 'ป.5', 'ป.6', 'ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'];
+const TYPE_COLORS = ['#5B2E9E', '#E0A800', '#9B7BD4', '#2A9D8F', '#D1495B', '#3D5A80', '#C77DBB', '#8D99AE'];
+const ROLE_LABEL = { teacher: 'ครู', executive: 'ผู้บริหาร', admin: 'แอดมิน' };
+const LINK_TYPES = ['interactive', 'video'];
+
+const S = {
+  token: '',
+  data: null,
+  route: { name: 'home', params: {} },
+  homePeriod: { year: '', term: '' },
+  period: null,
+  lib: { q: '', type: '', dept: '', grade: '', year: '' },
+  tq: '', tdept: '', mq: '', uq: '',
+  sort: { key: 'name', dir: 1 },
+};
+
+/* ------------------------------------------------------------ helpers */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const isHttp = u => /^https?:\/{2}/i.test(u || '');
+const safeUrl = u => (isHttp(u) ? u : '#');
+const js = v => esc(JSON.stringify(v));
+
+// ลิงก์ Apps Script ที่ deploy แล้ว (ใช้เมื่อหน้าเว็บอยู่บน GitHub Pages)
+const API_URL = 'https:\/\/script.google.com/macros/s/AKfycbzcf8AavG3zF8mI9kUO6VJiMkTcHnlQ2PT2AuQ6V2xdnWAYeCnli5QeSDadEFYHd1M3/exec';
+const IN_APPS_SCRIPT = !!(window.google && google.script && google.script.run);
+
+function callServer(fn, ...args) {
+  if (IN_APPS_SCRIPT) {
+    return new Promise((resolve, reject) => {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](...args);
+    });
+  }
+  // text/plain ไม่ต้องผ่านการขออนุญาต CORS และ fetch ไม่ส่งคุกกี้ Google ไป จึงไม่ติดปัญหาล็อกอินหลายบัญชี
+  return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: fn, args: args }) })
+    .then(r => { if (!r.ok) throw new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ (' + r.status + ')'); return r.json(); })
+    .then(res => { if (!res.ok) throw new Error(res.error); return res.result; });
+}
+
+/** เรียกฟังก์ชันฝั่งเซิร์ฟเวอร์พร้อม token ถ้า session หมดอายุ ให้กลับเป็นผู้ใช้ทั่วไป */
+async function api(fn, ...args) {
+  try {
+    return await callServer(fn, S.token, ...args);
+  } catch (e) {
+    if (/^AUTH:/.test((e && e.message) || '')) {
+      setToken('');
+      await reload();
+      go('login');
+      throw new Error('หมดเวลาการเข้าสู่ระบบ กรุณาเข้าสู่ระบบใหม่');
+    }
+    throw e;
+  }
+}
+
+function setToken(t) {
+  S.token = t;
+  // ถ้าเบราว์เซอร์ไม่มี storage ก็ใช้ได้ แค่ต้องล็อกอินใหม่เมื่อรีเฟรช
+  try { t ? localStorage.setItem('kms_token', t) : localStorage.removeItem('kms_token'); } catch (e) {}
+}
+
+function toast(html, kind, ms) {
+  const el = document.createElement('div');
+  el.className = 'toast ' + (kind || '');
+  el.innerHTML = html;
+  $('#toast').appendChild(el);
+  setTimeout(() => el.remove(), ms || 4000);
+}
+const errMsg = e => esc((e && e.message) || e);
+
+function busy(on, msg) {
+  $('#busy-msg').textContent = msg || 'กำลังโหลด…';
+  $('#busy').classList.toggle('hidden', !on);
+}
+
+function confirmBox(msg, okLabel) {
+  return new Promise(resolve => {
+    const bg = document.createElement('div');
+    bg.className = 'modal-bg';
+    bg.innerHTML = `<div class="modal"><div>${msg}</div><div class="actions">
+      <button class="btn" data-v="0">ยกเลิก</button><button class="btn purple" data-v="1">${esc(okLabel || 'ยืนยัน')}</button></div></div>`;
+    bg.addEventListener('click', e => {
+      const v = e.target.dataset && e.target.dataset.v;
+      if (v === undefined && e.target !== bg) return;
+      bg.remove();
+      resolve(v === '1');
+    });
+    document.body.appendChild(bg);
+  });
+}
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve({ name: file.name, mimeType: file.type, data: String(r.result).split(',')[1] });
+    r.onerror = () => reject(new Error('อ่านไฟล์ไม่สำเร็จ'));
+    r.readAsDataURL(file);
+  });
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  const days = Math.floor((Date.now() - d) / 86400000);
+  if (days < 1) return 'วันนี้';
+  if (days < 2) return 'เมื่อวาน';
+  if (days < 30) return days + ' วันก่อน';
+  return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' });
+}
+
+/* ------------------------------------------------------------ data lookups */
+const D = () => S.data;
+const role = () => (D().me && !D().me.mustChange ? D().me.role : 'guest');
+const isExec = () => role() === 'executive' || role() === 'admin';
+const canAuthor = () => role() === 'teacher' || role() === 'admin';
+const canEdit = m => role() === 'admin' || (role() === 'teacher' && m.ownerId === D().me.id);
+
+function typeOf(id) { return D().types.find(t => t.id === id) || { id: id, name: 'ไม่ระบุ', icon: 'dots' }; }
+function typeColor(id) {
+  const i = D().types.findIndex(t => t.id === id);
+  return TYPE_COLORS[(i < 0 ? 7 : i) % TYPE_COLORS.length];
+}
+function userOf(id) { return D().users.find(u => u.id === id) || { id: id, name: 'ไม่ทราบชื่อ', department: '' }; }
+/** ครู = ผู้ใช้ที่ยังใช้งานอยู่และสังกัดกลุ่มสาระ (ผู้บริหารที่ไม่สังกัดกลุ่มสาระจะไม่ถูกนับ) */
+function teachers() { return D().users.filter(u => u.active !== false && u.department); }
+function inPeriod(m, p) { return (!p.year || m.year === p.year) && (!p.term || m.term === p.term); }
+const full = m => !!m.title;
+function countBy(list, key) { const o = {}; list.forEach(x => { o[x[key]] = (o[x[key]] || 0) + 1; }); return o; }
+function periodLabel(p) {
+  if (!p.year && !p.term) return 'ทุกปีการศึกษา';
+  return (p.year ? 'ปีการศึกษา ' + p.year : 'ทุกปี') + (p.term ? ' ภาคเรียนที่ ' + p.term : '');
+}
+function years() {
+  const set = new Set(D().media.map(m => m.year).filter(Boolean));
+  set.add(D().settings.currentYear);
+  return [...set].sort().reverse();
+}
+
+/* ------------------------------------------------------------ routing */
+const ROUTES = {
+  home: { view: viewHome },
+  library: { view: viewLibrary },
+  media: { view: viewMedia, nav: 'library' },
+  mine: { view: viewMine, need: canAuthor },
+  form: { view: viewForm, need: canAuthor, nav: p => (p.admin ? 'manage' : 'mine') },
+  depts: { view: viewDepts, need: isExec },
+  dept: { view: viewDept, need: isExec, nav: 'depts' },
+  teachers: { view: viewTeachers, need: isExec },
+  teacher: { view: viewTeacher, need: isExec, nav: 'teachers' },
+  manage: { view: viewManage, need: () => role() === 'admin' },
+  settings: { view: viewSettings, need: () => role() === 'admin' },
+  login: { view: viewLogin },
+  password: { view: viewPassword, need: () => !!D().me },
+};
+
+function go(name, params) {
+  S.route = { name: name, params: params || {} };
+  if (IN_APPS_SCRIPT) google.script.history.push(S.route, {}, name);
+  else history.pushState(S.route, '', '#' + name);
+  render();
+  window.scrollTo(0, 0);
+}
+
+function render() {
+  // ผู้ใช้ที่ยังใช้รหัสผ่านเริ่มต้น ต้องตั้งรหัสใหม่ก่อนทำอย่างอื่น
+  if (D().me && D().me.mustChange && S.route.name !== 'password') S.route = { name: 'password', params: {} };
+  renderTopbar();
+  const r = ROUTES[S.route.name] || ROUTES.home;
+  const app = $('#app');
+  if (r.need && !r.need()) {
+    app.innerHTML = `<div class="card empty"><i class="ti ti-lock"></i>
+      <h2>หน้านี้สำหรับบุคลากรของโรงเรียน</h2><p>เข้าสู่ระบบด้วยบัญชีที่มีสิทธิ์เพื่อดูหน้านี้</p>${loginButton()}</div>`;
+    return;
+  }
+  app.innerHTML = r.view(S.route.params);
+  if (r.after) r.after();
+  afterRender.forEach(fn => fn());
+  afterRender = [];
+}
+let afterRender = [];
+
+function loginButton() {
+  return `<button class="btn primary" onclick="go('login')"><i class="ti ti-login"></i> เข้าสู่ระบบ</button>`;
+}
+
+function renderTopbar() {
+  const d = D(), s = d.settings;
+  const nav = [['home', 'หน้าแรก'], ['library', 'คลังสื่อ']];
+  if (canAuthor()) nav.push(['mine', 'สื่อของฉัน']);
+  if (isExec()) nav.push(['depts', 'กลุ่มสาระ'], ['teachers', 'รายชื่อครู']);
+  if (role() === 'admin') nav.push(['manage', 'จัดการสื่อ'], ['settings', 'ตั้งค่า']);
+  const r = ROUTES[S.route.name] || {};
+  const active = typeof r.nav === 'function' ? r.nav(S.route.params) : (r.nav || S.route.name);
+  const logo = s.logoUrl ? `<img src="${esc(safeUrl(s.logoUrl))}" alt="">` : `<span class="logo-ph"><i class="ti ti-books"></i></span>`;
+  const user = d.me
+    ? `<span class="name">${esc(d.me.name)}</span><span class="role">${ROLE_LABEL[d.me.role] || ''}</span>
+       <a class="out small" href="#" onclick="go('password');return false" title="เปลี่ยนรหัสผ่าน"><i class="ti ti-key"></i></a>
+       <a class="out small" href="#" onclick="doLogout();return false"><i class="ti ti-logout"></i> ออก</a>`
+    : (S.route.name === 'login' ? '' : loginButton());
+  $('#topbar').innerHTML = `
+    <div class="brand" onclick="go('home')">${logo}<span>${esc(s.schoolName || 'คลังสื่อการเรียนรู้')}</span></div>
+    <nav class="nav">${nav.map(([k, l]) => `<button class="${k === active ? 'active' : ''}" onclick="go('${k}')">${l}</button>`).join('')}</nav>
+    <div class="userbox">${user}</div>`;
+}
+
+/* ------------------------------------------------------------ shared widgets */
+function periodBar(key) {
+  const p = S[key];
+  const opt = (v, cur, label) => `<option value="${v}" ${v === cur ? 'selected' : ''}>${label || v}</option>`;
+  return `<div class="filters">
+    <label>ปีการศึกษา <select onchange="S.${key}.year=this.value;render()">${opt('', p.year, 'ทั้งหมด')}${years().map(y => opt(y, p.year)).join('')}</select></label>
+    <label>ภาคเรียน <select onchange="S.${key}.term=this.value;render()">${opt('', p.term, 'ทั้งหมด')}${opt('1', p.term)}${opt('2', p.term)}</select></label>
+  </div>`;
+}
+
+function stat(label, value, sub, accent) {
+  return `<div class="stat ${accent ? 'accent' : ''}"><div class="label">${label}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+}
+
+function typeBars(list) {
+  const c = countBy(list, 'typeId');
+  const max = Math.max(1, ...Object.values(c));
+  return D().types.map(t => {
+    const n = c[t.id] || 0;
+    return `<div class="bar-row"><span class="bar-label"><i class="ti ti-${esc(t.icon)}" style="color:${typeColor(t.id)}"></i> ${esc(t.name)}</span>
+      <div class="bar-track"><div class="bar" style="width:${(n / max) * 100}%;background:${typeColor(t.id)}"></div></div><span class="bar-val">${n}</span></div>`;
+  }).join('');
+}
+
+function stack(list, widthPct) {
+  const c = countBy(list, 'typeId');
+  const segs = D().types.filter(t => c[t.id]).map(t =>
+    `<span style="flex:${c[t.id]};background:${typeColor(t.id)}" title="${esc(t.name)}: ${c[t.id]}"></span>`).join('');
+  return `<div class="stack" style="width:${widthPct}%">${segs}</div>`;
+}
+
+function legend() {
+  return `<div class="legend">${D().types.map(t => `<span><i class="dot" style="background:${typeColor(t.id)}"></i>${esc(t.name)}</span>`).join('')}</div>`;
+}
+
+function deptBars(list) {
+  const rows = D().departments.map(d => ({ d: d, ms: list.filter(m => m.department === d) }));
+  const max = Math.max(1, ...rows.map(r => r.ms.length));
+  return rows.map(r => `<div class="bar-row"><span class="bar-label" title="${esc(r.d)}">${esc(r.d)}</span>
+    <div class="bar-track">${stack(r.ms, (r.ms.length / max) * 100)}</div><span class="bar-val">${r.ms.length}</span></div>`).join('') + legend();
+}
+
+function coverHtml(m) {
+  const t = typeOf(m.typeId);
+  const img = m.coverUrl ? `<img src="${esc(safeUrl(m.coverUrl))}" alt="" loading="lazy" onerror="this.remove()">` : '';
+  return `<div class="cover" style="background:${typeColor(t.id)}"><i class="ti ti-${esc(t.icon)}"></i>${img}</div>`;
+}
+
+function typeChip(id) {
+  const t = typeOf(id);
+  return `<span class="chip"><i class="ti ti-${esc(t.icon)}"></i>${esc(t.name)}</span>`;
+}
+const internalChip = m => (m.visibility === 'internal' ? '<span class="chip internal"><i class="ti ti-lock"></i>ภายใน</span>' : '');
+
+function mediaCard(m) {
+  return `<div class="mcard" onclick="go('media',{id:'${esc(m.id)}'})">${coverHtml(m)}
+    <div class="body">${typeChip(m.typeId)} ${internalChip(m)}<h4>${esc(m.title)}</h4>
+    <div class="small muted">${esc(userOf(m.ownerId).name)} · ${esc(m.subject)}</div></div></div>`;
+}
+
+function typeIcons(typeIds, showAll) {
+  return `<div class="typeicons">${D().types.filter(t => showAll || typeIds.has(t.id)).map(t =>
+    `<i class="ti ti-${esc(t.icon)}" title="${esc(t.name)}" style="background:${typeIds.has(t.id) ? typeColor(t.id) : '#DDD6E8'}"></i>`).join('')}</div>`;
+}
+
+function empty(icon, text, extra) {
+  return `<div class="card empty"><i class="ti ti-${icon}"></i><div>${text}</div>${extra ? `<div style="margin-top:12px">${extra}</div>` : ''}</div>`;
+}
+
+/* ------------------------------------------------------------ view: home */
+function viewHome() {
+  const d = D(), p = S.homePeriod, s = d.settings;
+  const ms = d.media.filter(m => inPeriod(m, p));
+  const T = teachers();
+  const owners = new Set(ms.map(m => m.ownerId));
+  const withMedia = T.filter(t => owners.has(t.id)).length;
+  const thisTerm = d.media.filter(m => m.year === s.currentYear && m.term === s.currentTerm).length;
+  const depts = new Set(ms.map(m => m.department));
+  const deptsWith = d.departments.filter(x => depts.has(x)).length;
+  const recent = d.media.filter(m => full(m) && m.visibility === 'public')
+    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 8);
+
+  return `
+  <div class="hero"><div><h1>คลังสื่อการเรียนรู้</h1><p>รวมสื่อการสอนจากครูทุกกลุ่มสาระ เปิดดูและดาวน์โหลดไปใช้ได้ฟรี</p></div>
+    <form onsubmit="S.lib.q=this.q.value;go('library');return false"><input type="search" name="q" placeholder="ค้นหาสื่อ เช่น เศษส่วน, ใบงาน"><button class="btn primary"><i class="ti ti-search"></i>ค้นหา</button></form></div>
+  <div class="page-head"><h2>ภาพรวมการใช้สื่อของโรงเรียน</h2>${periodBar('homePeriod')}</div>
+  <div class="stats">
+    ${stat('สื่อทั้งหมด', ms.length, periodLabel(p))}
+    ${stat('ครูที่มีสื่อในระบบ', `${withMedia}<span class="small muted"> / ${T.length}</span>`, T.length ? Math.round((withMedia / T.length) * 100) + '% ของครูทั้งหมด' : '')}
+    ${stat('เพิ่มในภาคเรียนนี้', '+' + thisTerm, `ภาคเรียนที่ ${esc(s.currentTerm)}/${esc(s.currentYear)}`, true)}
+    ${stat('กลุ่มสาระที่มีสื่อ', `${deptsWith}<span class="small muted"> / ${d.departments.length}</span>`)}
+  </div>
+  <div class="grid2 section">
+    <div class="card"><h3>สื่อแยกตามประเภท</h3>${typeBars(ms)}</div>
+    <div class="card"><h3>สื่อแยกตามกลุ่มสาระ</h3>${deptBars(ms)}</div>
+  </div>
+  <div class="section"><div class="page-head"><h2>สื่อล่าสุด</h2><button class="btn" onclick="go('library')">ดูทั้งหมด <i class="ti ti-arrow-right"></i></button></div>
+    ${recent.length ? `<div class="media-grid">${recent.map(mediaCard).join('')}</div>` : empty('books', 'ยังไม่มีสื่อที่เผยแพร่สาธารณะ')}
+  </div>`;
+}
+
+/* ------------------------------------------------------------ view: library */
+function viewLibrary() {
+  const d = D(), f = S.lib;
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label || v)}</option>`;
+  afterRender.push(renderLibResults);
+  return `
+  <div class="page-head"><div><h1>คลังสื่อ</h1><div class="muted small">${D().me ? 'แสดงทั้งสื่อสาธารณะและสื่อภายในโรงเรียน' : 'สื่อที่ครูเผยแพร่สาธารณะ'}</div></div></div>
+  <div class="card filters" style="margin-bottom:16px">
+    <input type="search" placeholder="ค้นหาชื่อสื่อ รายวิชา หรือชื่อครู" value="${esc(f.q)}" oninput="S.lib.q=this.value;renderLibResults()" style="flex:1;min-width:220px">
+    <select onchange="S.lib.type=this.value;renderLibResults()">${opt('', f.type, 'ทุกประเภท')}${d.types.map(t => opt(t.id, f.type, t.name)).join('')}</select>
+    <select onchange="S.lib.dept=this.value;renderLibResults()">${opt('', f.dept, 'ทุกกลุ่มสาระ')}${d.departments.map(x => opt(x, f.dept)).join('')}</select>
+    <select onchange="S.lib.grade=this.value;renderLibResults()">${opt('', f.grade, 'ทุกระดับชั้น')}${GRADES.map(g => opt(g, f.grade)).join('')}</select>
+    <select onchange="S.lib.year=this.value;renderLibResults()">${opt('', f.year, 'ทุกปีการศึกษา')}${years().map(y => opt(y, f.year)).join('')}</select>
+  </div>
+  <div id="lib-results"></div>`;
+}
+
+function renderLibResults() {
+  const f = S.lib, q = f.q.trim().toLowerCase();
+  const list = D().media.filter(full).filter(m =>
+    (!f.type || m.typeId === f.type) && (!f.dept || m.department === f.dept) &&
+    (!f.grade || m.grades.indexOf(f.grade) >= 0) && (!f.year || m.year === f.year) &&
+    (!q || [m.title, m.subject, m.description, userOf(m.ownerId).name].join(' ').toLowerCase().indexOf(q) >= 0)
+  ).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  $('#lib-results').innerHTML = list.length
+    ? `<div class="small muted" style="margin-bottom:8px">พบ ${list.length} รายการ</div><div class="media-grid">${list.map(mediaCard).join('')}</div>`
+    : empty('search-off', 'ไม่พบสื่อที่ตรงกับเงื่อนไข');
+}
+
+/* ------------------------------------------------------------ view: media detail */
+function viewMedia(p) {
+  const m = D().media.find(x => x.id === p.id);
+  if (!m || !full(m)) {
+    return empty('lock', 'ไม่พบสื่อนี้ หรือเป็นสื่อเฉพาะภายในโรงเรียน', D().me ? '' : loginButton());
+  }
+  const owner = userOf(m.ownerId);
+  const buttons = m.kind === 'file'
+    ? `<a class="btn primary" href="${esc(safeUrl(m.url))}" target="_blank" rel="noopener"><i class="ti ti-eye"></i> เปิดดู</a>
+       <a class="btn" href="https:\/\/drive.google.com/uc?export=download&id=${encodeURIComponent(m.fileId)}" target="_blank" rel="noopener"><i class="ti ti-download"></i> ดาวน์โหลด</a>`
+    : `<a class="btn primary" href="${esc(safeUrl(m.url))}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i> เปิดสื่อ</a>`;
+  const edit = canEdit(m)
+    ? `<button class="btn" onclick="go('form',{id:'${esc(m.id)}',admin:${role() === 'admin' && m.ownerId !== D().me.id}})"><i class="ti ti-edit"></i> แก้ไข</button>
+       <button class="btn danger" onclick="removeMedia('${esc(m.id)}')"><i class="ti ti-trash"></i> ลบ</button>` : '';
+  return `
+  <div class="crumb"><a onclick="go('library')">คลังสื่อ</a> › ${esc(typeOf(m.typeId).name)}</div>
+  <div class="detail">
+    <div>${coverHtml(m)}</div>
+    <div class="card">
+      ${typeChip(m.typeId)} ${internalChip(m)}
+      <h1 style="margin-top:8px">${esc(m.title)}</h1>
+      ${m.description ? `<p>${esc(m.description).replace(/\n/g, '<br>')}</p>` : ''}
+      <dl class="meta">
+        <dt>ครูผู้จัดทำ</dt><dd>${isExec() ? `<a href="#" onclick="go('teacher',{id:'${esc(owner.id)}'});return false">${esc(owner.name)}</a>` : esc(owner.name)}</dd>
+        <dt>กลุ่มสาระ</dt><dd>${esc(m.department)}</dd>
+        <dt>รายวิชา</dt><dd>${esc(m.subject)}</dd>
+        <dt>ระดับชั้น</dt><dd>${esc(m.grades.join(', '))}</dd>
+        <dt>ปีการศึกษา</dt><dd>${esc(m.year)} ภาคเรียนที่ ${esc(m.term)}</dd>
+        <dt>เพิ่มเมื่อ</dt><dd>${fmtDate(m.createdAt)}</dd>
+      </dl>
+      <div class="filters">${buttons}${edit}</div>
+    </div>
+  </div>`;
+}
+
+async function removeMedia(id) {
+  const m = D().media.find(x => x.id === id);
+  const ok = await confirmBox(`ลบสื่อ <b>${esc(m.title)}</b> ใช่ไหม<div class="hint">ไฟล์จะถูกย้ายไปถังขยะของ Drive และกู้คืนได้ภายใน 30 วัน</div>`, 'ลบสื่อ');
+  if (!ok) return;
+  busy(true, 'กำลังลบ…');
+  try {
+    await api('deleteMedia', id);
+    await reload();
+    toast('ลบสื่อแล้ว');
+    if (S.route.name === 'media') go(role() === 'admin' ? 'manage' : 'mine'); else render();
+  } catch (e) { toast(errMsg(e), 'error'); } finally { busy(false); }
+}
+
+/* ------------------------------------------------------------ view: my media */
+function mediaTable(list, opts) {
+  opts = opts || {};
+  if (!list.length) return empty('files', 'ยังไม่มีสื่อ', opts.emptyExtra);
+  return `<div class="table-wrap"><table><thead><tr><th>ชื่อสื่อ</th><th>ประเภท</th>${opts.owner ? '<th>ครู</th>' : ''}
+    <th>รายวิชา</th><th>ปี/ภาค</th><th>เผยแพร่</th><th></th></tr></thead><tbody>
+    ${list.map(m => `<tr><td><a href="#" onclick="go('media',{id:'${esc(m.id)}'});return false">${esc(m.title)}</a></td>
+      <td>${typeChip(m.typeId)}</td>${opts.owner ? `<td>${esc(userOf(m.ownerId).name)}</td>` : ''}
+      <td>${esc(m.subject)}</td><td>${esc(m.year)}/${esc(m.term)}</td>
+      <td>${m.visibility === 'public' ? '<span class="chip">สาธารณะ</span>' : internalChip(m)}</td>
+      <td><div class="actions">
+        <a class="btn sm ghost" href="${esc(safeUrl(m.url))}" target="_blank" rel="noopener" title="เปิดสื่อ"><i class="ti ti-external-link"></i></a>
+        ${canEdit(m) ? `<button class="btn sm" onclick="go('form',{id:'${esc(m.id)}',admin:${!!opts.admin}})"><i class="ti ti-edit"></i></button>
+        <button class="btn sm danger" onclick="removeMedia('${esc(m.id)}')"><i class="ti ti-trash"></i></button>` : ''}
+      </div></td></tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function viewMine() {
+  const me = D().me;
+  const mine = D().media.filter(m => m.ownerId === me.id).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  const c = countBy(mine, 'typeId');
+  const addBtn = `<button class="btn primary" onclick="go('form')"><i class="ti ti-plus"></i> เพิ่มสื่อ</button>`;
+  return `
+  <div class="page-head"><div><h1>สื่อของฉัน</h1><div class="muted">${esc(me.name)} · ${esc(me.department || 'ไม่สังกัดกลุ่มสาระ')}</div></div>${addBtn}</div>
+  <div class="stats">${stat('สื่อทั้งหมด', mine.length)}${stat('ประเภทที่ใช้', `${Object.keys(c).length}<span class="small muted"> / ${D().types.length}</span>`)}</div>
+  <div class="card section"><div class="filters">${D().types.map(t =>
+    `<span class="chip ${c[t.id] ? '' : 'off'}"><i class="ti ti-${esc(t.icon)}"></i>${esc(t.name)} ${c[t.id] || 0}</span>`).join('')}</div></div>
+  <div class="section">${mediaTable(mine, { emptyExtra: addBtn })}</div>`;
+}
+
+/* ------------------------------------------------------------ view: media form */
+function viewForm(p) {
+  const d = D(), me = d.me, isAdmin = role() === 'admin';
+  const m = p.id ? d.media.find(x => x.id === p.id) : null;
+  if (p.id && (!m || !canEdit(m))) return empty('lock', 'ไม่พบสื่อนี้ หรือคุณไม่มีสิทธิ์แก้ไข');
+  const v = m || {
+    title: '', typeId: '', department: me.department || '', subject: '', grades: [], year: d.settings.currentYear,
+    term: d.settings.currentTerm, description: '', kind: 'file', url: '', visibility: 'public', ownerId: isAdmin && p.admin ? '' : me.id,
+  };
+  const opt = (val, cur, label) => `<option value="${esc(val)}" ${String(val) === String(cur) ? 'selected' : ''}>${esc(label || val)}</option>`;
+  const owners = d.users.filter(u => u.active !== false).sort((a, b) => a.name.localeCompare(b.name, 'th'));
+  const back = p.admin ? 'manage' : 'mine';
+  const driveCover = /drive\.google\.com/.test(v.coverUrl || '');
+
+  return `
+  <div class="crumb"><a onclick="go('${back}')">${p.admin ? 'จัดการสื่อ' : 'สื่อของฉัน'}</a> › ${m ? 'แก้ไขสื่อ' : 'เพิ่มสื่อ'}</div>
+  <h1>${m ? 'แก้ไขสื่อ' : 'เพิ่มสื่อใหม่'}</h1>
+  <form class="card form" id="mform" onsubmit="submitMedia(event)" novalidate>
+    <input type="hidden" name="id" value="${esc(m ? m.id : '')}">
+    ${isAdmin ? `<div class="field"><label class="lbl">ครูเจ้าของสื่อ <span class="req">*</span></label>
+      <select name="ownerId">${opt('', v.ownerId, '— เลือกครู —')}${owners.map(u => opt(u.id, v.ownerId, u.name + (u.department ? ' (' + u.department + ')' : ''))).join('')}</select></div>` : ''}
+    <div class="field"><label class="lbl">ชื่อสื่อ <span class="req">*</span></label><input type="text" name="title" value="${esc(v.title)}" placeholder="แบบฝึกทักษะเรื่องเศษส่วน"></div>
+    <div class="row2">
+      <div class="field"><label class="lbl">ประเภทสื่อ <span class="req">*</span></label>
+        <select name="typeId" onchange="suggestKind(this.value)">${opt('', v.typeId, '— เลือกประเภท —')}${d.types.map(t => opt(t.id, v.typeId, t.name)).join('')}</select></div>
+      <div class="field"><label class="lbl">กลุ่มสาระ <span class="req">*</span></label>
+        <select name="department">${opt('', v.department, '— เลือกกลุ่มสาระ —')}${d.departments.map(x => opt(x, v.department)).join('')}</select></div>
+    </div>
+    <div class="field"><label class="lbl">รายวิชา <span class="req">*</span></label><input type="text" name="subject" value="${esc(v.subject)}" placeholder="คณิตศาสตร์พื้นฐาน ค21101"></div>
+    <div class="field"><label class="lbl">ระดับชั้น <span class="req">*</span></label>
+      <div class="checks">${GRADES.map(g => `<label><input type="checkbox" name="grades" value="${g}" ${v.grades.indexOf(g) >= 0 ? 'checked' : ''}>${g}</label>`).join('')}</div></div>
+    <div class="row2">
+      <div class="field"><label class="lbl">ปีการศึกษา <span class="req">*</span></label>
+        <select name="year">${[...new Set([String(v.year), ...years(), String(+d.settings.currentYear + 1)])].sort().reverse().map(y => opt(y, v.year)).join('')}</select></div>
+      <div class="field"><label class="lbl">ภาคเรียน <span class="req">*</span></label><select name="term">${opt('1', v.term)}${opt('2', v.term)}</select></div>
+    </div>
+    <div class="field"><label class="lbl">คำอธิบายสั้น ๆ</label><textarea name="description" placeholder="ใช้ทำอะไร เหมาะกับกิจกรรมแบบไหน">${esc(v.description)}</textarea></div>
+
+    <div class="field"><label class="lbl">ไฟล์หรือลิงก์ <span class="req">*</span></label>
+      <div class="radio-cards">
+        <label><input type="radio" name="kind" value="file" ${v.kind === 'file' ? 'checked' : ''} onchange="toggleKind()"> <b>อัปโหลดไฟล์</b><div class="hint">ใบงาน สไลด์ ภาพ เสียง (ไม่เกิน ${d.maxUploadMb} MB)</div></label>
+        <label><input type="radio" name="kind" value="link" ${v.kind === 'link' ? 'checked' : ''} onchange="toggleKind()"> <b>แนบลิงก์</b><div class="hint">YouTube, Wordwall, Kahoot, Canva, Drive</div></label>
+      </div>
+      <div id="kind-file" style="margin-top:10px">
+        <input type="file" name="file">
+        ${m && m.kind === 'file' ? `<div class="hint">ไฟล์ปัจจุบัน: <a href="${esc(safeUrl(m.url))}" target="_blank" rel="noopener">เปิดดู</a> (เลือกไฟล์ใหม่ถ้าต้องการแทนที่)</div>` : ''}
+        <div class="hint">วิดีโอไฟล์ใหญ่ ให้อัปโหลดขึ้น YouTube (ตั้งเป็น Unlisted ได้) แล้วเลือก "แนบลิงก์" แทน</div>
+      </div>
+      <div id="kind-link" style="margin-top:10px">
+        <input type="url" name="url" value="${esc(v.kind === 'link' ? v.url : '')}" placeholder="https:\/\/" style="width:100%">
+        <div class="hint">ถ้าเป็นไฟล์ใน Google Drive ของคุณเอง ให้ตั้งค่าแชร์เป็น "ทุกคนที่มีลิงก์" ก่อน และอย่าลบไฟล์ต้นฉบับ</div>
+      </div>
+    </div>
+
+    <div class="field"><label class="lbl">ภาพปก</label>
+      <input type="file" name="cover" accept="image/png,image/jpeg,image/gif,image/webp">
+      <div class="hint">ไม่ใส่ก็ได้ ระบบจะใช้ไอคอนตามประเภทสื่อ (ลิงก์ YouTube จะดึงภาพปกให้อัตโนมัติ)</div>
+      ${driveCover ? `<label class="hint"><input type="checkbox" name="removeCover"> ลบภาพปกเดิม</label>` : ''}
+    </div>
+
+    <div class="field"><label class="lbl">การเผยแพร่ <span class="req">*</span></label>
+      <div class="radio-cards">
+        <label><input type="radio" name="visibility" value="public" ${v.visibility === 'public' ? 'checked' : ''}> <b>สาธารณะ</b><div class="hint">ทุกคนค้นหาและดาวน์โหลดได้</div></label>
+        <label><input type="radio" name="visibility" value="internal" ${v.visibility === 'internal' ? 'checked' : ''}> <b>เฉพาะภายในโรงเรียน</b><div class="hint">เช่น ข้อสอบ เฉลย ไฟล์ที่มีภาพนักเรียน</div></label>
+      </div>
+    </div>
+
+    <div class="err" id="form-err"></div>
+    <div class="filters"><button class="btn primary" type="submit"><i class="ti ti-device-floppy"></i> บันทึกสื่อ</button>
+      <button class="btn" type="button" onclick="go('${back}')">ยกเลิก</button></div>
+  </form>`;
+}
+ROUTES.form.after = () => toggleKind();
+
+function toggleKind() {
+  const f = $('#mform');
+  if (!f) return;
+  const k = f.kind.value;
+  $('#kind-file').classList.toggle('hidden', k !== 'file');
+  $('#kind-link').classList.toggle('hidden', k !== 'link');
+}
+
+function suggestKind(typeId) {
+  const f = $('#mform');
+  if (f.id.value) return;
+  f.kind.value = LINK_TYPES.indexOf(typeId) >= 0 ? 'link' : 'file';
+  toggleKind();
+}
+
+async function submitMedia(ev) {
+  ev.preventDefault();
+  const f = ev.target, d = D();
+  const err = msg => { $('#form-err').textContent = msg; };
+  const p = {
+    id: f.id.value, title: f.title.value.trim(), typeId: f.typeId.value, department: f.department.value,
+    subject: f.subject.value.trim(), grades: [...f.querySelectorAll('input[name=grades]:checked')].map(x => x.value),
+    year: f.year.value, term: f.term.value, description: f.description.value.trim(), kind: f.kind.value,
+    url: f.url.value.trim(), visibility: f.visibility.value, removeCover: !!(f.removeCover && f.removeCover.checked),
+  };
+  if (f.ownerId) p.ownerId = f.ownerId.value;
+  if (f.ownerId && !p.ownerId) return err('เลือกครูเจ้าของสื่อ');
+  if (!p.title) return err('กรอกชื่อสื่อ');
+  if (!p.typeId) return err('เลือกประเภทสื่อ');
+  if (!p.department) return err('เลือกกลุ่มสาระ');
+  if (!p.subject) return err('กรอกรายวิชา');
+  if (!p.grades.length) return err('เลือกระดับชั้นอย่างน้อย 1 ชั้น');
+  const file = f.file.files[0], cover = f.cover.files[0];
+  const old = p.id ? d.media.find(x => x.id === p.id) : null;
+  if (p.kind === 'link' && !isHttp(p.url)) return err('วางลิงก์ที่ขึ้นต้นด้วย https:\/\/');
+  if (p.kind === 'file' && !file && !(old && old.kind === 'file')) return err('เลือกไฟล์ที่จะอัปโหลด');
+  const limit = d.maxUploadMb * 1024 * 1024;
+  if (file && file.size > limit) return err(`ไฟล์ใหญ่ ${(file.size / 1048576).toFixed(1)} MB เกิน ${d.maxUploadMb} MB ให้อัปโหลดขึ้น Drive หรือ YouTube แล้วแนบเป็นลิงก์แทน`);
+  if (cover && cover.size > 5 * 1024 * 1024) return err('ภาพปกต้องไม่เกิน 5 MB');
+  err('');
+
+  busy(true, file ? 'กำลังอัปโหลดไฟล์…' : 'กำลังบันทึก…');
+  try {
+    if (p.kind === 'file' && file) p.upload = await readFile(file);
+    if (cover) p.cover = await readFile(cover);
+    const res = await api('saveMedia', p);
+    await reload();
+    toast('บันทึกสื่อแล้ว');
+    (res.warnings || []).forEach(w => toast(esc(w), 'warn', 9000));
+    go('media', { id: res.id });
+  } catch (e) {
+    err((e && e.message) || String(e));
+  } finally { busy(false); }
+}
+
+/* ------------------------------------------------------------ executive views */
+function deptRows(list) {
+  const T = teachers();
+  return D().departments.map(name => {
+    const ms = list.filter(m => m.department === name);
+    const ts = T.filter(t => t.department === name);
+    const owners = new Set(ms.map(m => m.ownerId));
+    const withMedia = ts.filter(t => owners.has(t.id)).length;
+    return { name: name, ms: ms, teachers: ts.length, withMedia: withMedia, pct: ts.length ? withMedia / ts.length : 0 };
+  });
+}
+
+function viewDepts() {
+  const list = D().media.filter(m => inPeriod(m, S.period));
+  const rows = deptRows(list);
+  const max = Math.max(1, ...rows.map(r => r.ms.length));
+  return `
+  <div class="page-head"><div><h1>ภาพรวมกลุ่มสาระ</h1><div class="muted small">${periodLabel(S.period)} · กดที่ชื่อกลุ่มสาระเพื่อดูรายละเอียด</div></div>${periodBar('period')}</div>
+  <div class="table-wrap"><table><thead><tr><th>กลุ่มสาระ</th><th class="num">ครูทั้งหมด</th><th class="num">ครูที่มีสื่อ</th>
+    <th class="num">จำนวนสื่อ</th><th class="num">สื่อเฉลี่ย/ครู</th><th style="min-width:180px">สัดส่วนประเภท</th></tr></thead><tbody>
+    ${rows.map(r => `<tr class="clickable ${r.teachers && r.pct < 0.5 ? 'warn' : ''}" onclick="go('dept',{name:${js(r.name)}})">
+      <td><b>${esc(r.name)}</b></td><td class="num">${r.teachers}</td>
+      <td class="num">${r.withMedia} (${Math.round(r.pct * 100)}%)</td><td class="num">${r.ms.length}</td>
+      <td class="num">${r.teachers ? (r.ms.length / r.teachers).toFixed(1) : '—'}</td>
+      <td><div class="bar-track">${stack(r.ms, (r.ms.length / max) * 100)}</div></td></tr>`).join('')}
+  </tbody></table></div>
+  ${legend()}
+  <p class="hint">แถบสีเหลือง = ครูในกลุ่มสาระมีสื่อในระบบน้อยกว่า 50%</p>`;
+}
+
+function viewDept(p) {
+  const list = D().media.filter(m => inPeriod(m, S.period) && m.department === p.name);
+  const r = deptRows(list).find(x => x.name === p.name);
+  if (!r) return empty('alert-circle', 'ไม่พบกลุ่มสาระนี้');
+  afterRender.push(renderTeacherRows);
+  return `
+  <div class="crumb"><a onclick="go('depts')">ภาพรวมกลุ่มสาระ</a> › ${esc(p.name)}</div>
+  <div class="page-head"><h1>${esc(p.name)}</h1>${periodBar('period')}</div>
+  <div class="stats">
+    ${stat('ครูในกลุ่มสาระ', r.teachers)}
+    ${stat('ครูที่มีสื่อ', `${r.withMedia}<span class="small muted"> / ${r.teachers}</span>`, Math.round(r.pct * 100) + '%', r.teachers && r.pct < 0.5)}
+    ${stat('จำนวนสื่อ', r.ms.length, periodLabel(S.period))}
+    ${stat('สื่อเฉลี่ยต่อครู', r.teachers ? (r.ms.length / r.teachers).toFixed(1) : '—')}
+  </div>
+  <div class="card section"><h3>ประเภทสื่อที่ใช้</h3>${typeBars(r.ms)}</div>
+  <div class="section"><h2>ครูในกลุ่มสาระ</h2>${teacherTableShell()}</div>`;
+}
+
+function viewTeachers() {
+  afterRender.push(renderTeacherRows);
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label || v)}</option>`;
+  return `
+  <div class="page-head"><div><h1>รายชื่อครูทั้งหมด</h1><div class="muted small">${periodLabel(S.period)} · กดที่ชื่อครูเพื่อดูรายบุคคล</div></div>
+    <div class="filters">${periodBar('period')}<button class="btn" onclick="exportTeachers()"><i class="ti ti-file-spreadsheet"></i> ส่งออก Google Sheets</button></div></div>
+  <div class="card filters" style="margin-bottom:12px">
+    <input type="search" placeholder="ค้นหาชื่อครู" value="${esc(S.tq)}" oninput="S.tq=this.value;renderTeacherRows()" style="flex:1;min-width:200px">
+    <select onchange="S.tdept=this.value;renderTeacherRows()">${opt('', S.tdept, 'ทุกกลุ่มสาระ')}${D().departments.map(x => opt(x, S.tdept)).join('')}</select>
+  </div>
+  ${teacherTableShell()}
+  <p class="hint">แถบสีเหลือง = ครูที่ยังไม่มีสื่อในช่วงเวลาที่เลือก</p>`;
+}
+
+function teacherRows() {
+  const list = D().media.filter(m => inPeriod(m, S.period));
+  const q = S.route.name === 'dept' ? '' : S.tq.trim().toLowerCase();
+  const dept = S.route.name === 'dept' ? S.route.params.name : S.tdept;
+  const rows = teachers().filter(t => (!dept || t.department === dept) &&(!q || t.name.toLowerCase().indexOf(q) >= 0)).map(t => {
+    const ms = list.filter(m => m.ownerId === t.id);
+    const last = ms.reduce((a, m) => (String(m.createdAt) > a ? String(m.createdAt) : a), '');
+    return { t: t, ms: ms, count: ms.length, types: new Set(ms.map(m => m.typeId)), last: last };
+  });
+  const k = S.sort.key, dir = S.sort.dir;
+  const val = r => (k === 'name' ? r.t.name : k === 'department' ? r.t.department : k === 'count' ? r.count : k === 'types' ? r.types.size : r.last);
+  rows.sort((a, b) => {
+    const x = val(a), y = val(b);
+    return (typeof x === 'number' ? x - y : String(x).localeCompare(String(y), 'th')) * dir;
+  });
+  return rows;
+}
+
+function teacherTableShell() {
+  const th = (k, label, cls) => `<th class="sortable ${cls || ''}" onclick="setSort('${k}')">${label}${S.sort.key === k ? (S.sort.dir > 0 ? ' ▲' : ' ▼') : ''}</th>`;
+  return `<div class="table-wrap"><table><thead><tr>${th('name', 'ชื่อครู')}${th('department', 'กลุ่มสาระ')}${th('count', 'จำนวนสื่อ', 'num')}
+    ${th('types', 'ประเภทที่ใช้')}${th('last', 'เพิ่มล่าสุด')}</tr></thead><tbody id="ttbody"></tbody></table></div>`;
+}
+
+function setSort(k) {
+  S.sort = { key: k, dir: S.sort.key === k ? -S.sort.dir : (k === 'count' || k === 'types' || k === 'last' ? -1 : 1) };
+  render();
+}
+
+function renderTeacherRows() {
+  const rows = teacherRows();
+  $('#ttbody').innerHTML = rows.length ? rows.map(r => `<tr class="clickable ${r.count ? '' : 'warn'}" onclick="go('teacher',{id:'${esc(r.t.id)}'})">
+    <td><b>${esc(r.t.name)}</b></td><td>${esc(r.t.department)}</td><td class="num">${r.count}</td>
+    <td>${r.count ? typeIcons(r.types) : '<span class="small muted">ยังไม่มีสื่อ</span>'}</td><td>${fmtDate(r.last)}</td></tr>`).join('')
+    : `<tr><td colspan="5" class="empty">ไม่พบครูที่ตรงกับเงื่อนไข</td></tr>`;
+}
+
+async function exportTeachers() {
+  const rows = teacherRows();
+  const types = D().types;
+  const table = [['ชื่อครู', 'กลุ่มสาระ', 'ชื่อผู้ใช้', 'จำนวนสื่อ', ...types.map(t => t.name), 'เพิ่มล่าสุด']].concat(rows.map(r => {
+    const c = countBy(r.ms, 'typeId');
+    return [r.t.name, r.t.department, r.t.username || '', r.count, ...types.map(t => c[t.id] || 0), r.last ? new Date(r.last).toLocaleDateString('th-TH') : ''];
+  }));
+  busy(true, 'กำลังสร้าง Google Sheet…');
+  try {
+    const url = await api('exportReport', `รายงานการใช้สื่อ ${periodLabel(S.period)} (${new Date().toLocaleDateString('th-TH')})`, table);
+    toast(`สร้างรายงานแล้ว <a href="${esc(safeUrl(url))}" target="_blank" rel="noopener">เปิด Google Sheet</a>`, '', 12000);
+  } catch (e) { toast(errMsg(e), 'error'); } finally { busy(false); }
+}
+
+function viewTeacher(p) {
+  const t = D().users.find(u => u.id === p.id);
+  if (!t) return empty('user-off', 'ไม่พบครูคนนี้');
+  const ms = D().media.filter(m => m.ownerId === t.id && inPeriod(m, S.period))
+    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  const c = countBy(ms, 'typeId');
+  return `
+  <div class="crumb"><a onclick="go('teachers')">รายชื่อครู</a>${t.department ? ` › <a onclick="go('dept',{name:${js(t.department)}})">${esc(t.department)}</a>` : ''} › ${esc(t.name)}</div>
+  <div class="page-head"><div><h1>${esc(t.name)}</h1><div class="muted">${esc(t.department || 'ไม่สังกัดกลุ่มสาระ')} · ${esc(t.username || '')}</div></div>${periodBar('period')}</div>
+  <div class="stats">${stat('จำนวนสื่อ', ms.length, periodLabel(S.period), !ms.length)}${stat('ประเภทที่ใช้', `${Object.keys(c).length}<span class="small muted"> / ${D().types.length}</span>`)}</div>
+  <div class="card section"><div class="filters">${D().types.map(ty =>
+    `<span class="chip ${c[ty.id] ? '' : 'off'}"><i class="ti ti-${esc(ty.icon)}"></i>${esc(ty.name)} ${c[ty.id] || 0}</span>`).join('')}</div></div>
+  <div class="section"><h2>สื่อทั้งหมด</h2>${mediaTable(ms, { admin: role() === 'admin' })}</div>`;
+}
+
+/* ------------------------------------------------------------ admin: manage media */
+function viewManage() {
+  afterRender.push(renderManageRows);
+  return `
+  <div class="page-head"><div><h1>จัดการสื่อทั้งหมด</h1><div class="muted small">แอดมินเพิ่ม แก้ไข หรือลบสื่อของครูทุกคนได้</div></div>
+    <button class="btn primary" onclick="go('form',{admin:true})"><i class="ti ti-plus"></i> เพิ่มสื่อแทนครู</button></div>
+  <div class="card filters" style="margin-bottom:12px">
+    <input type="search" placeholder="ค้นหาชื่อสื่อ รายวิชา หรือชื่อครู" value="${esc(S.mq)}" oninput="S.mq=this.value;renderManageRows()" style="flex:1;min-width:220px">
+  </div>
+  <div id="manage-rows"></div>`;
+}
+
+function renderManageRows() {
+  const q = S.mq.trim().toLowerCase();
+  const list = D().media.filter(full).filter(m => !q || [m.title, m.subject, userOf(m.ownerId).name].join(' ').toLowerCase().indexOf(q) >= 0)
+    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  $('#manage-rows').innerHTML = `<div class="small muted" style="margin-bottom:8px">${list.length} รายการ</div>` + mediaTable(list, { owner: true, admin: true });
+}
+
+/* ------------------------------------------------------------ admin: settings */
+function viewSettings() {
+  const d = D(), s = d.settings;
+  const users = d.users.slice().sort((a, b) => (a.active === b.active ? a.name.localeCompare(b.name, 'th') : a.active ? -1 : 1));
+  return `
+  <h1>ตั้งค่าระบบ</h1>
+  <form class="card form section" onsubmit="submitSettings(event)">
+    <h2>ทั่วไป</h2>
+    <div class="field"><label class="lbl">ชื่อโรงเรียน</label><input type="text" name="schoolName" value="${esc(s.schoolName)}"></div>
+    <div class="field"><label class="lbl">โลโก้</label>${s.logoUrl ? `<img src="${esc(safeUrl(s.logoUrl))}" alt="" style="height:48px;display:block;margin-bottom:6px">` : ''}<input type="file" name="logo" accept="image/png,image/jpeg,image/gif,image/webp"></div>
+    <div class="row2">
+      <div class="field"><label class="lbl">ปีการศึกษาปัจจุบัน</label><input type="text" name="currentYear" value="${esc(s.currentYear)}" inputmode="numeric"></div>
+      <div class="field"><label class="lbl">ภาคเรียนปัจจุบัน</label><select name="currentTerm"><option ${s.currentTerm === '1' ? 'selected' : ''}>1</option><option ${s.currentTerm === '2' ? 'selected' : ''}>2</option></select></div>
+    </div>
+    <div><button class="btn purple"><i class="ti ti-device-floppy"></i> บันทึกการตั้งค่า</button></div>
+  </form>
+
+  <div class="card section">
+    <div class="page-head"><h2>ผู้ใช้และบทบาท</h2><button class="btn primary" onclick="editUser()"><i class="ti ti-user-plus"></i> เพิ่มผู้ใช้</button></div>
+    <div id="user-form"></div>
+    <div class="filters" style="margin-bottom:10px"><input type="search" placeholder="ค้นหาชื่อหรือชื่อผู้ใช้" value="${esc(S.uq)}" oninput="S.uq=this.value;renderUserRows()" style="flex:1;min-width:200px">
+      <span class="small muted">${users.filter(u => u.mustChange && u.active).length} คนยังไม่ได้เปลี่ยนรหัสผ่านเริ่มต้น</span></div>
+    <div class="table-wrap"><table><thead><tr><th>ชื่อ-สกุล</th><th>ชื่อผู้ใช้</th><th>กลุ่มสาระ</th><th>บทบาท</th><th>สถานะ</th><th></th></tr></thead>
+      <tbody id="user-rows"></tbody></table></div>
+    <details class="section"><summary><b>นำเข้ารายชื่อจาก Excel</b></summary>
+      <p class="hint">คัดลอกจาก Excel หรือ Google Sheets มาวางได้เลย บรรทัดละ 1 คน เรียง 4 คอลัมน์: <b>ชื่อผู้ใช้ · ชื่อ-สกุล · กลุ่มสาระ · บทบาท</b><br>
+      บทบาทใช้ teacher / executive / admin (ไม่ใส่ = teacher) ชื่อกลุ่มสาระต้องตรงกับรายการกลุ่มสาระด้านล่าง<br>
+      ชื่อผู้ใช้ที่มีอยู่แล้วจะถูกอัปเดตชื่อ กลุ่มสาระ และบทบาท (รหัสผ่านไม่เปลี่ยน)</p>
+      <textarea id="import-text" placeholder="thai01&#9;นางสาวสมศรี ใจดี&#9;ภาษาไทย&#9;teacher"></textarea>
+      <div class="field" style="margin-top:8px"><label class="lbl">รหัสผ่านเริ่มต้นสำหรับผู้ใช้ใหม่</label>
+        <input type="text" id="import-password" autocomplete="off" style="max-width:260px">
+        <div class="hint">ทุกคนต้องตั้งรหัสผ่านใหม่ (อย่างน้อย ${d.minPassword} ตัวอักษร) ตอนเข้าใช้ครั้งแรก</div></div>
+      <button class="btn purple" onclick="submitImport()" style="margin-top:8px"><i class="ti ti-upload"></i> นำเข้า</button>
+      <div id="import-result"></div>
+    </details>
+  </div>
+
+  <div class="grid2 section">
+    <div class="card"><h2>กลุ่มสาระ</h2><p class="hint">บรรทัดละ 1 กลุ่มสาระ การเปลี่ยนชื่อจะไม่เปลี่ยนชื่อในสื่อที่บันทึกไว้แล้ว</p>
+      <textarea id="dept-text" style="min-height:200px">${esc(d.departments.join('\n'))}</textarea>
+      <button class="btn purple" onclick="submitDepartments()" style="margin-top:8px"><i class="ti ti-device-floppy"></i> บันทึกกลุ่มสาระ</button></div>
+    <div class="card"><h2>ประเภทสื่อ</h2><p class="hint">ไอคอนใช้ชื่อจาก <a href="https:\/\/tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a> เช่น video, file-text</p>
+      <div id="type-rows">${d.types.map(typeRow).join('')}</div>
+      <div class="filters" style="margin-top:8px"><button class="btn" onclick="$('#type-rows').insertAdjacentHTML('beforeend', typeRow({id:'',name:'',icon:'dots'}))"><i class="ti ti-plus"></i> เพิ่มประเภท</button>
+      <button class="btn purple" onclick="submitTypes()"><i class="ti ti-device-floppy"></i> บันทึกประเภทสื่อ</button></div></div>
+  </div>`;
+}
+ROUTES.settings.after = () => renderUserRows();
+
+function renderUserRows() {
+  const q = S.uq.trim().toLowerCase();
+  const users = D().users.filter(u => !q || (u.name + ' ' + u.username).toLowerCase().indexOf(q) >= 0)
+    .sort((a, b) => (a.active === b.active ? String(a.username).localeCompare(String(b.username)) : a.active ? -1 : 1));
+  $('#user-rows').innerHTML = users.map(u => `<tr${u.active ? '' : ' style="opacity:.55"'}><td>${esc(u.name)}</td><td>${esc(u.username)}</td>
+    <td>${esc(u.department || '—')}</td><td>${ROLE_LABEL[u.role] || esc(u.role)}</td>
+    <td>${!u.active ? 'ปิดใช้งาน' : u.mustChange ? '<span class="chip internal">ยังไม่เปลี่ยนรหัส</span>' : 'ใช้งาน'}</td>
+    <td><div class="actions"><button class="btn sm" onclick="editUser('${esc(u.id)}')" title="แก้ไข"><i class="ti ti-edit"></i></button>
+      <button class="btn sm" onclick="resetUserPassword('${esc(u.id)}')" title="รีเซ็ตรหัสผ่าน"><i class="ti ti-key"></i></button></div></td></tr>`).join('')
+    || '<tr><td colspan="6" class="empty">ไม่พบผู้ใช้</td></tr>';
+}
+
+async function resetUserPassword(id) {
+  const u = D().users.find(x => x.id === id);
+  const ok = await confirmBox(`ตั้งรหัสผ่านชั่วคราวใหม่ให้ <b>${esc(u.name)}</b> (${esc(u.username)}) ใช่ไหม<div class="hint">รหัสเดิมจะใช้ไม่ได้ทันที และผู้ใช้ต้องตั้งรหัสใหม่ตอนเข้าสู่ระบบ</div>`, 'รีเซ็ตรหัสผ่าน');
+  if (!ok) return;
+  busy(true, 'กำลังรีเซ็ต…');
+  try {
+    const temp = await api('resetPassword', u.username);
+    await reload();
+    render();
+    await confirmBox(`รหัสผ่านชั่วคราวของ <b>${esc(u.username)}</b><div style="font-size:1.5rem;font-family:monospace;margin:10px 0;color:var(--p900)">${esc(temp)}</div><div class="hint">แจ้งรหัสนี้กับผู้ใช้โดยตรง ระบบจะไม่แสดงรหัสนี้อีก</div>`, 'จดแล้ว');
+  } catch (e) { toast(errMsg(e), 'error'); } finally { busy(false); }
+}
+
+function typeRow(t) {
+  return `<div class="filters type-row" data-id="${esc(t.id)}" style="margin:6px 0">
+    <i class="ti ti-${esc(t.icon)}" style="font-size:22px;color:var(--p700);width:24px"></i>
+    <input type="text" class="t-name" value="${esc(t.name)}" placeholder="ชื่อประเภท" style="flex:2;min-width:120px">
+    <input type="text" class="t-icon" value="${esc(t.icon)}" placeholder="ไอคอน" style="flex:1;min-width:80px" oninput="this.parentNode.firstElementChild.className='ti ti-'+this.value">
+    <button class="btn sm danger" onclick="this.parentNode.remove()" title="ลบ"><i class="ti ti-x"></i></button></div>`;
+}
+
+function editUser(id) {
+  const u = id ? D().users.find(x => x.id === id) : { username: '', name: '', department: '', role: 'teacher', active: true };
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label || v)}</option>`;
+  $('#user-form').innerHTML = `<form class="form" style="margin-bottom:16px;padding:12px;background:var(--p50);border-radius:8px" onsubmit="submitUser(event)">
+    <input type="hidden" name="isNew" value="${id ? '' : '1'}">
+    <div class="row2"><div class="field"><label class="lbl">ชื่อผู้ใช้</label><input type="text" name="username" value="${esc(u.username)}" ${id ? 'readonly' : ''} placeholder="thai01" autocomplete="off"></div>
+      <div class="field"><label class="lbl">ชื่อ-สกุล</label><input type="text" name="name" value="${esc(u.name)}"></div></div>
+    ${id ? '' : `<div class="field"><label class="lbl">รหัสผ่านเริ่มต้น</label><input type="text" name="password" autocomplete="off" style="max-width:260px">
+      <div class="hint">ผู้ใช้ต้องตั้งรหัสใหม่ตอนเข้าใช้ครั้งแรก</div></div>`}
+    <div class="row2"><div class="field"><label class="lbl">กลุ่มสาระ</label><select name="department">${opt('', u.department, '— ไม่สังกัด (เช่น ผู้บริหาร) —')}${D().departments.map(x => opt(x, u.department)).join('')}</select></div>
+      <div class="field"><label class="lbl">บทบาท</label><select name="role">${Object.keys(ROLE_LABEL).map(r => opt(r, u.role, ROLE_LABEL[r])).join('')}</select></div></div>
+    <label><input type="checkbox" name="active" ${u.active ? 'checked' : ''}> เปิดใช้งาน</label>
+    <div class="err" id="user-err"></div>
+    <div class="filters"><button class="btn purple">บันทึกผู้ใช้</button><button type="button" class="btn" onclick="$('#user-form').innerHTML=''">ยกเลิก</button></div></form>`;
+}
+
+async function adminCall(fn, args, okMsg) {
+  busy(true, 'กำลังบันทึก…');
+  try {
+    const res = await api(fn, ...args);
+    await reload();
+    render();
+    toast(okMsg);
+    return res;
+  } catch (e) { toast(errMsg(e), 'error'); throw e; } finally { busy(false); }
+}
+
+async function submitSettings(ev) {
+  ev.preventDefault();
+  const f = ev.target;
+  const p = { schoolName: f.schoolName.value, currentYear: f.currentYear.value, currentTerm: f.currentTerm.value };
+  if (f.logo.files[0]) p.logo = await readFile(f.logo.files[0]);
+  adminCall('saveSettings', [p], 'บันทึกการตั้งค่าแล้ว').catch(() => {});
+}
+
+async function submitUser(ev) {
+  ev.preventDefault();
+  const f = ev.target;
+  const p = { isNew: !!f.isNew.value, username: f.username.value.trim(), name: f.name.value.trim(), department: f.department.value,
+    role: f.role.value, active: f.active.checked, password: f.password ? f.password.value : '' };
+  if (!p.username || !p.name) { $('#user-err').textContent = 'กรอกชื่อผู้ใช้และชื่อ-สกุล'; return; }
+  if (p.isNew && p.password.length < 6) { $('#user-err').textContent = 'รหัสผ่านเริ่มต้นต้องยาวอย่างน้อย 6 ตัวอักษร'; return; }
+  adminCall('saveUser', [p], 'บันทึกผู้ใช้แล้ว').catch(() => {});
+}
+
+async function submitImport() {
+  const text = $('#import-text').value, pw = $('#import-password').value;
+  if (!text.trim()) return toast('วางรายชื่อก่อนกดนำเข้า', 'warn');
+  if (pw.length < 6) return toast('ใส่รหัสผ่านเริ่มต้นอย่างน้อย 6 ตัวอักษร', 'warn');
+  busy(true, 'กำลังนำเข้า…');
+  try {
+    const r = await api('importUsers', text, pw);
+    await reload();
+    render();
+    toast(`นำเข้าแล้ว: เพิ่มใหม่ ${r.added} คน · อัปเดต ${r.updated} คน`, r.skipped.length ? 'warn' : '', 8000);
+    if (r.skipped.length) {
+      document.querySelector('details').open = true;
+      $('#import-result').innerHTML = `<div class="notice" style="margin-top:12px"><b>ข้ามไป ${r.skipped.length} บรรทัด</b><pre style="white-space:pre-wrap;margin:6px 0 0;font-size:.85rem">${esc(r.skipped.join('\n'))}</pre></div>`;
+    }
+  } catch (e) { toast(errMsg(e), 'error'); } finally { busy(false); }
+}
+
+function submitDepartments() {
+  adminCall('saveDepartments', [$('#dept-text').value.split('\n')], 'บันทึกกลุ่มสาระแล้ว').catch(() => {});
+}
+
+function submitTypes() {
+  const types = [...document.querySelectorAll('.type-row')].map(r => ({ id: r.dataset.id, name: r.querySelector('.t-name').value, icon: r.querySelector('.t-icon').value }));
+  adminCall('saveMediaTypes', [types], 'บันทึกประเภทสื่อแล้ว').catch(() => {});
+}
+
+/* ------------------------------------------------------------ login / password */
+function viewLogin() {
+  if (D().me) return empty('circle-check', `เข้าสู่ระบบแล้วในชื่อ ${esc(D().me.name)}`);
+  return `
+  <form class="card form" style="max-width:420px;margin:24px auto" onsubmit="doLogin(event)">
+    <div style="text-align:center"><i class="ti ti-lock" style="font-size:40px;color:var(--p700)"></i><h1>เข้าสู่ระบบ</h1>
+      <div class="muted small">สำหรับครู ผู้บริหาร และแอดมิน</div></div>
+    <div class="field"><label class="lbl">ชื่อผู้ใช้</label><input type="text" name="username" autocomplete="username" autocapitalize="none" placeholder="thai01"></div>
+    <div class="field"><label class="lbl">รหัสผ่าน</label><input type="password" name="password" autocomplete="current-password" style="width:100%"></div>
+    <div class="err" id="login-err"></div>
+    <button class="btn primary" style="justify-content:center"><i class="ti ti-login"></i> เข้าสู่ระบบ</button>
+    <div class="hint" style="text-align:center">ลืมรหัสผ่าน ให้ติดต่อแอดมินของโรงเรียนเพื่อรีเซ็ต</div>
+  </form>`;
+}
+ROUTES.login.after = () => { const f = document.querySelector('form [name=username]'); if (f) f.focus(); };
+
+async function doLogin(ev) {
+  ev.preventDefault();
+  const f = ev.target, err = $('#login-err');
+  if (!f.username.value.trim() || !f.password.value) { err.textContent = 'กรอกชื่อผู้ใช้และรหัสผ่าน'; return; }
+  busy(true, 'กำลังเข้าสู่ระบบ…');
+  try {
+    const r = await callServer('login', f.username.value.trim(), f.password.value);
+    setToken(r.token);
+    await reload();
+    go(r.mustChange ? 'password' : (isExec() ? 'depts' : canAuthor() ? 'mine' : 'home'));
+    toast(`ยินดีต้อนรับ ${esc(D().me.name)}`);
+  } catch (e) {
+    err.textContent = (e && e.message) || String(e);
+  } finally { busy(false); }
+}
+
+async function doLogout() {
+  // ออกจากระบบฝั่งเว็บได้เสมอ แม้เรียกเซิร์ฟเวอร์ไม่สำเร็จ
+  try { await callServer('logout', S.token); } catch (e) {}
+  setToken('');
+  await reload();
+  go('home');
+  toast('ออกจากระบบแล้ว');
+}
+
+function viewPassword() {
+  const forced = D().me.mustChange;
+  return `
+  <form class="card form" style="max-width:460px;margin:24px auto" onsubmit="submitPassword(event)">
+    <h1>${forced ? 'ตั้งรหัสผ่านใหม่' : 'เปลี่ยนรหัสผ่าน'}</h1>
+    ${forced ? `<div class="notice" style="margin:0">คุณกำลังใช้รหัสผ่านเริ่มต้น กรุณาตั้งรหัสผ่านของตัวเองก่อนใช้งาน</div>` : ''}
+    <div class="field"><label class="lbl">รหัสผ่านปัจจุบัน</label><input type="password" name="old" autocomplete="current-password" style="width:100%"></div>
+    <div class="field"><label class="lbl">รหัสผ่านใหม่</label><input type="password" name="new1" autocomplete="new-password" style="width:100%">
+      <div class="hint">อย่างน้อย ${D().minPassword} ตัวอักษร</div></div>
+    <div class="field"><label class="lbl">ยืนยันรหัสผ่านใหม่</label><input type="password" name="new2" autocomplete="new-password" style="width:100%"></div>
+    <div class="err" id="pw-err"></div>
+    <div class="filters"><button class="btn primary"><i class="ti ti-device-floppy"></i> บันทึกรหัสผ่าน</button>
+      ${forced ? `<button type="button" class="btn" onclick="doLogout()">ออกจากระบบ</button>` : `<button type="button" class="btn" onclick="go('home')">ยกเลิก</button>`}</div>
+  </form>`;
+}
+
+async function submitPassword(ev) {
+  ev.preventDefault();
+  const f = ev.target, err = msg => { $('#pw-err').textContent = msg; };
+  if (!f.old.value) return err('กรอกรหัสผ่านปัจจุบัน');
+  if (f.new1.value.length < D().minPassword) return err(`รหัสผ่านใหม่ต้องยาวอย่างน้อย ${D().minPassword} ตัวอักษร`);
+  if (f.new1.value !== f.new2.value) return err('รหัสผ่านใหม่ทั้งสองช่องไม่ตรงกัน');
+  busy(true, 'กำลังบันทึก…');
+  try {
+    await api('changePassword', f.old.value, f.new1.value);
+    await reload();
+    toast('เปลี่ยนรหัสผ่านแล้ว');
+    go(isExec() ? 'depts' : canAuthor() ? 'mine' : 'home');
+  } catch (e) { err((e && e.message) || String(e)); } finally { busy(false); }
+}
+
+/* ------------------------------------------------------------ boot */
+async function reload() {
+  S.data = await callServer('getData', S.token);
+  if (S.data.sessionExpired) setToken('');
+}
+
+async function boot() {
+  busy(true);
+  try {
+    try { S.token = localStorage.getItem('kms_token') || ''; } catch (e) { S.token = ''; }
+    await reload();
+    if (!S.period) S.period = { year: S.data.settings.currentYear, term: S.data.settings.currentTerm };
+    render();
+  } catch (e) {
+    $('#app').innerHTML = `<div class="card empty"><i class="ti ti-alert-triangle"></i><h2>โหลดข้อมูลไม่สำเร็จ</h2><p>${errMsg(e)}</p></div>`;
+  } finally { busy(false); }
+}
+
+// ปุ่มย้อนกลับของเบราว์เซอร์
+if (IN_APPS_SCRIPT) {
+  google.script.history.setChangeHandler(e => {
+    if (e.state && e.state.name) { S.route = e.state; render(); }
+  });
+} else {
+  window.addEventListener('popstate', e => {
+    if (e.state && e.state.name && S.data) { S.route = e.state; render(); }
+  });
+}
+boot();
+</script>
+</body>
+</html>
